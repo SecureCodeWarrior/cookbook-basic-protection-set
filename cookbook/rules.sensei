@@ -446,7 +446,7 @@
       "model": {
         "yamlCode": "search:\n  methodcall:\n    args:\n      2:\n        containsUntrustedInput: true\n        type: java.lang.String\n    name: search\n    declaration:\n      type: javax.naming.directory.DirContext\n",
         "mver": 4,
-        "yamlQuickFixCode": "availableFixes: []\n",
+        "yamlQuickFixCode": "availableFixes:\n- name: \"parameterize\"\n  actions:\n  - parameterize:\n      placeholderFormat: \"{{{{ index }}}}\"\n      extractUntrustedInput:\n        array:\n          type: \"java.lang.Object[]\"\n          atArgumentPosition: 3\n",
         "ruleName": "Data: Injection: Parameterize LDAP Filters: DirContext#search",
         "category": "injection:ldap",
         "ruleID": "3b216ef8-f165-4c0d-9b76-1ff68a7973a0",
@@ -454,7 +454,7 @@
         "ruleShortDescription": "Could lead to LDAP Injection",
         "ruleErrorLevel": 2,
         "ruleEnabled": true,
-        "comment": "todo: quickfix",
+        "comment": "",
         "ruleScope": [],
         "onlyMarkOnNewCode": false
       }
