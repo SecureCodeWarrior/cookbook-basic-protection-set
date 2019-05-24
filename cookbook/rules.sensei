@@ -462,23 +462,6 @@
     {
       "type": "947034909c9b08d0b583170e594b0eb327933231",
       "model": {
-        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: .\n    anyOf:\n    - name: indexOf\n    - name: lastIndexOf\n    declaration:\n      type: java.lang.String\n",
-        "mver": 4,
-        "yamlQuickFixCode": "availableFixes:\n- name: \"Use the char datatype\"\n  actions:\n  - rewrite:\n      to: \"{{{ qualifier }}}.lastIndexOf(\u0027{{{ arguments.0.value }}}\u0027)\"\n",
-        "ruleName": "Performance: use char when possible as argument for indexOf",
-        "ruleID": "c1d8dd7d-22c2-406e-85e7-49f588271bd4",
-        "disableRuleIDs": [],
-        "ruleShortDescription": "Could lead to decreased performance ",
-        "ruleErrorLevel": 2,
-        "ruleEnabled": true,
-        "comment": "",
-        "ruleScope": [],
-        "onlyMarkOnNewCode": false
-      }
-    },
-    {
-      "type": "947034909c9b08d0b583170e594b0eb327933231",
-      "model": {
         "yamlCode": "search:\n  methodcall:\n    name: equals\n    on:\n      methodcall:\n        anyOf:\n        - name: toUpperCase\n        - name: toLowerCase\n",
         "mver": 4,
         "yamlQuickFixCode": "availableFixes:\n- name: \"Use equalsIgnoreCase\"\n  actions:\n  - rewrite:\n      to: \"{{{ qualifier.qualifier }}}.equalsIgnoreCase({{{ arguments.0 }}})\"\n",
