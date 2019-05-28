@@ -1,0 +1,905 @@
+{
+  "header": {
+    "name": "Custom cookbook",
+    "description": "cookbook for internal use within our company",
+    "company": "SCW",
+    "appsecmail": "appsecteam@senseifinancial.com",
+    "rulepack_id": "fcd36335-ac86-4bef-8d30-062d8aae0364",
+    "rulePackVersion": "0.1.0",
+    "enabled": true
+  },
+  "rules": [
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: RSA|.*ECIES.*|RSA/ECB/PKCS1Padding|RSA/ECB/OAEPWithSHA-1AndMGF1Padding\n    name: getInstance\n    declaration:\n      type: javax.crypto.Cipher\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use RSA in EBC mode with correctly configured OAEP Padding \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"RSA/ECB/OAEPWithSHA-256AndMGF1Padding\\\")\"\n",
+        "ruleName": "Crypto: Cipher: Insecure Asymmetric Cryptographic Algorithm ",
+        "category": "broken_cryptography:use_of_insecuredeprecated_alogirthms",
+        "ruleID": "a836d69c-f784-4394-8565-091e97061cc8",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_cryptography_cipher_asymmetric_algorithm",
+        "ruleShortDescription": "This cryptographic algorithm is not recommended ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          not:\n            matches: AES/GCM/NoPadding|.*RSA.*|.*ECIES.*\n    name: getInstance\n    declaration:\n      type: javax.crypto.Cipher\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use AES in Galois/Counter Mode with NoPadding\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"AES/GCM/NoPadding\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use strong symmetric cryptographic algorithm ",
+        "category": "broken_cryptography:use_of_insecuredeprecated_alogirthms",
+        "ruleID": "a9e7286f-8dff-4e73-8a9c-ae2b664e7c13",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_chosen_plaintext_attacks_use_strong_symmetric_cryptographic_algorithm ",
+        "ruleShortDescription": "Could lead to cryptographic weakness",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: DiffieHellman|ECMQV\n    name: getInstance\n    declaration:\n      type: javax.crypto.KeyAgreement\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use ECDH\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"ECDH\\\")\"\n",
+        "ruleName": "Crypto: KeyAgreement: Insecure Cryptographic Algorithm ",
+        "category": "broken_cryptography:use_of_insecuredeprecated_alogirthms",
+        "ruleID": "93e69bc8-ed26-47d8-9315-4c2e113b8be4",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_cryptography_key_agreement_algorithm",
+        "ruleShortDescription": "This cryptographic algorithm is insecure ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: ^((?!(DiffieHellman|EC$|RSA|ECMQV|ECDH$)).)*\n    name: getInstance\n    declaration:\n      type: javax.crypto.KeyAgreement\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use ECDH\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"ECDH\\\")\"\n",
+        "ruleName": "Crypto: KeyAgreement: Guide on Approved Cryptographic Algorithm",
+        "category": "broken_cryptography:use_of_insecuredeprecated_alogirthms",
+        "ruleID": "2839c034-0b45-4763-8146-7d5b25fe92fa",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_cryptography_key_agreement_algorithm",
+        "ruleShortDescription": "This cryptographic algorithm is not recommended ",
+        "ruleErrorLevel": 3,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value: DiffieHellman\n    name: getInstance\n    declaration:\n      type: java.security.KeyPairGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use RSA \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"RSA\\\")\"\n",
+        "ruleName": "Crypto: KeyPair Generation: Insecure Cryptographic Algorithm ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "b3af4a61-705b-40c1-bb85-8046d5b25030",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_key_pair_generation_algorithm",
+        "ruleShortDescription": "This cryptographic algorithm is insecure ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value: DSA\n    name: getInstance\n    declaration:\n      type: java.security.KeyPairGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use RSA \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"RSA\\\")\"\n",
+        "ruleName": "Crypto: KeyPair Generation: Non Standard Cryptographic Algorithm ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "c5ca7221-3084-44c9-83c7-1614a45b7c40",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_key_pair_generation_algorithm",
+        "ruleShortDescription": "This cryptographic algorithm is not recommended ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value: \u0027^((?!(DiffieHellman|EC|RSA$|DSA)).)* \u0027\n    name: getInstance\n    declaration:\n      type: java.security.KeyPairGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use RSA \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"RSA\\\")\"\n",
+        "ruleName": "Crypto: KeyPair Generation: Approved Standard Cryptographic Algorithm ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "841b5e1e-22cb-4cd5-830c-bf7f1342ec1d",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_key_pair_generation_algorithm",
+        "ruleShortDescription": "This cryptographic algorithm is not recommended ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: (MD.*)|(NONE.*)|(SHA[^5][^1][^2].*)\n    name: getInstance\n    declaration:\n      type: java.security.Signature\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use SHA512withRSA \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"SHA512withRSA\\\")\"\n",
+        "ruleName": "Crypto: Signature: Insecure Hashing Algorithm ",
+        "category": "broken_cryptography:use_of_insecuredeprecated_alogirthms",
+        "ruleID": "2da4da97-fd72-4cf0-a39d-a72497c4947a",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_cryptography_signature",
+        "ruleShortDescription": "This hashing algorithm is not recommended for cryptographic use ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: SHA512withDSA|SHA512withDES|SHA512withECDSA\n    name: getInstance\n    declaration:\n      type: java.security.Signature\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use SHA512withRSA \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"SHA512withRSA\\\")\"\n",
+        "ruleName": "Crypto: Signature: Non Standard Hashing Algorithm ",
+        "category": "broken_cryptography:use_of_insecuredeprecated_alogirthms",
+        "ruleID": "29bbaa7e-434d-4adc-b0d3-c0d2f2c2ab71",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_cryptography_signature",
+        "ruleShortDescription": "This hashing algorithm is not recommended for cryptographic use ",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: ^((?!((MD.*)|(NONE.*)|(SHA[^5][^1][^2].*)|SHA512withDSA|SHA512withDES|SHA512withECDSA|SHA512withRSA$)).)*\n    name: getInstance\n    declaration:\n      type: java.security.Signature\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use SHA512withRSA \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"SHA512withRSA\\\")\"\n",
+        "ruleName": "Crypto: Signature: Approved Hashing Algorithm",
+        "category": "broken_cryptography:use_of_insecuredeprecated_alogirthms",
+        "ruleID": "bcc9761e-1d47-4292-a4d0-2316e52b64d5",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_cryptography_signature",
+        "ruleShortDescription": "This hashing algorithm is not recommended for cryptographic use ",
+        "ruleErrorLevel": 3,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value: AES\n    not:\n      followedBy:\n        methodcall:\n          name: init\n    name: getInstance\n    declaration:\n      type: javax.crypto.KeyGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Initialize key size to 128\"\n  actions:\n  - addMethodCall:\n      name: \"init\"\n      arguments:\n      - \"128\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid brute forcing: Use sufficiently long key sizes: keyGenerator ",
+        "category": "broken_cryptography:use_of_short_encryption_keys",
+        "ruleID": "5aa6f70c-6b00-49ec-9984-c80d7cf95a01",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_sufficiently_long_key_sizes",
+        "ruleShortDescription": "Could lead to brute forcing or other cryptographic weakness ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: int\n        value:\n          matches: ([1-9]|[1-9][0-9]|1[0-1][0-9]|12[0-7])\n    name: init\n    declaration:\n      type: javax.crypto.KeyGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Initialize key size to 128 \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(128)\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use sufficiently long key sizes: keyGenerator bad value",
+        "category": "broken_cryptography:use_of_short_encryption_keys",
+        "ruleID": "e6c2c7af-f31a-42fd-b6c0-31ae7aef7017",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_sufficiently_long_key_sizes",
+        "ruleShortDescription": "Could lead to brute forcing or other cryptographic weakness ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: DiffieHellman|DSA\n    name: getInstance\n    declaration:\n      type: java.security.KeyFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use RSA \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"RSA\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use appropriate key pair generation algorithm: insecure ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "c4ec414d-c74c-477f-be88-ce53e7553f11",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_key_pair_generation_algorithm",
+        "ruleShortDescription": "Could lead to cryptographic weakness ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: ^((?!(DiffieHellman|DSA|RSA|EC)).)*\n    name: getInstance\n    declaration:\n      type: java.security.KeyFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use RSA \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"RSA\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use appropriate key pair generation algorithm: not recommended ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "1c64f1c6-5af6-4b0d-913c-ccc44be5e131",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_key_pair_generation_algorithm",
+        "ruleShortDescription": "Could lead to cryptographic weakness ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: DES|DESede|RC2|Blowfish\n    name: getInstance\n    declaration:\n      type: javax.crypto.KeyGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use AES \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"AES\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use appropriate secret key generation algorithm: DES family ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "50b299d1-79fa-48a0-8c71-beb1bbfe50f9",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_secret_key_generation_algorithm",
+        "ruleShortDescription": "Could lead to cryptographic weakness ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: HmacMD5|HmacSHA1|HmacSHA1|HmacSHA256|HmacSHA384|HmacSHA512\n    name: getInstance\n    declaration:\n      type: javax.crypto.KeyGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use AES \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"AES\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use appropriate secret key generation algorithm: Hmac family ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "c42f1ffa-29f9-4b03-ab0d-18e277365041",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_secret_key_generation_algorithm",
+        "ruleShortDescription": "Could lead to cryptographic weakness ",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: HmacMD5|HmacSHA1|HmacSHA1|HmacSHA256|HmacSHA384|HmacSHA512\n    name: getInstance\n    declaration:\n      type: javax.crypto.KeyGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use AES \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"AES\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use appropriate secret key generation algorithm: Hmac family 1",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "78f1f086-99c3-414e-a22b-8f1cee77eed3",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_secret_key_generation_algorithm",
+        "ruleShortDescription": "Could lead to cryptographic weakness ",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: ^((?!(AES$|DES|DESede|RC2|Blowfish|HmacMD5|HmacSHA1|HmacSHA1|HmacSHA256|HmacSHA384|HmacSHA512)).)*\n    name: getInstance\n    declaration:\n      type: javax.crypto.KeyGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use AES \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"AES\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use appropriate secret key generation algorithm: Other algorithms ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "90cc1e52-67cf-4728-9f46-db0f85ca5cf3",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_secret_key_generation_algorithm",
+        "ruleShortDescription": "Could lead to cryptographic weakness ",
+        "ruleErrorLevel": 3,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: (.*MD5.*)|(.*DES.*)|PBKDF2WithHmacSHA1|(.*ARCFOUR.*)\n    name: getInstance\n    declaration:\n      type: javax.crypto.SecretKeyFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use AES \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"AES\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use appropriate secret key generation algorithm: insecure SecretKeyFactory ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "6536d7be-2a15-40b2-9f71-442e94360803",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_secret_key_generation_algorithm",
+        "ruleShortDescription": "Could lead to cryptographic weakness ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: PBEWithMD5AndDES\n    name: getInstance\n    declaration:\n      type: javax.crypto.SecretKeyFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use AES \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"AES\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use appropriate secret key generation algorithm: not recommended SecretKeyFactory ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "0b2ed676-c2d3-41f4-9d27-e5d5205030aa",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_secret_key_generation_algorithm",
+        "ruleShortDescription": "This cryptographic algorithm is not recommended ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: ^((?!(^AES$|PBEWithHmacSHA512AndAES_128|ARCFOUR|DES|DESede|PBKDF2WithHmacSHA1|MD5)).)*\n    name: getInstance\n    declaration:\n      type: javax.crypto.SecretKeyFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use AES \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"AES\\\")\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use appropriate secret key generation algorithm: other SecretKeyFactory ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "a83b4de3-3774-446a-9495-b98a777a0138",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_appropriate_secret_key_generation_algorithm",
+        "ruleShortDescription": "Could lead to cryptographic weakness ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value: RSA\n    not:\n      followedBy:\n        methodcall:\n          name: initialize\n    name: getInstance\n    declaration:\n      type: java.security.KeyPairGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Initialize key size to 2048 bits \"\n  actions:\n  - addMethodCall:\n      name: \"initialize\"\n      arguments:\n      - \"2048\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use sufficiently long key sizes: keyPairGenerator ",
+        "category": "broken_cryptography:insecure_generation_of_encryption_keys",
+        "ruleID": "9d98d0e1-6bc5-406d-bf02-0021c10ff515",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_sufficiently_long_key_sizes",
+        "ruleShortDescription": "Could lead to brute forcing or other cryptographic weakness ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: int\n        value:\n          matches: ([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1][0-9][0-9][0-9]|20[0-3][0-9]|204[0-7])\n    name: initialize\n    declaration:\n      type: java.security.KeyPairGenerator\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Initialize key size to 2048 bits\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(2048)\"\n",
+        "ruleName": "Data Protection - Cryptography: Avoid cryptographic weakness: Use sufficiently long key sizes: keyPairGenerator bad value ",
+        "category": "broken_cryptography:use_of_short_encryption_keys",
+        "ruleID": "06cd7abc-3400-46cb-b5ba-415b05c0ebcf",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_cryptography_avoid_brute_forcing_use_sufficiently_long_key_sizes",
+        "ruleShortDescription": "Could lead to brute forcing or other cryptographic weakness ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  instanceCreation:\n    type: javax.crypto.NullCipher\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use Cipher with the recomended parameters\"\n  actions:\n  - rewrite:\n      to: \"Cipher.getInstance(\\\"AES/GCM/NoPadding\\\")\"\n  - modifyAssignedVariable:\n      type: \"javax.crypto.Cipher\"\n",
+        "ruleName": "Data Protection - Secure Data Storage: Avoid data exposure: Use Cipher instead of NullCipher ",
+        "category": "broken_cryptography:use_of_insecuredeprecated_alogirthms",
+        "ruleID": "6affb789-52ed-41bf-a689-2aa38579b14a",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_data_protection_secure_data_storage_avoid_data_exposure_use_cipher_over_nullcipher",
+        "ruleShortDescription": "Could lead to data exposure ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      2:\n        containsUntrustedInput: true\n        type: java.lang.String\n    name: search\n    declaration:\n      type: javax.naming.directory.DirContext\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"parameterize\"\n  actions:\n  - parameterize:\n      placeholderFormat: \"{{{{ index }}}}\"\n      extractUntrustedInput:\n        array:\n          type: \"java.lang.Object[]\"\n          atArgumentPosition: 3\n",
+        "ruleName": "Data: Injection: Parameterize LDAP Filters: DirContext#search",
+        "category": "injection:ldap",
+        "ruleID": "3b216ef8-f165-4c0d-9b76-1ff68a7973a0",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "Could lead to LDAP Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "comment": "",
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    name: equals\n    on:\n      methodcall:\n        anyOf:\n        - name: toUpperCase\n        - name: toLowerCase\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use equalsIgnoreCase\"\n  actions:\n  - rewrite:\n      to: \"{{{ qualifier.qualifier }}}.equalsIgnoreCase({{{ arguments.0 }}})\"\n",
+        "ruleName": "Portability Flaw: Avoid locale dependent comparisons: equals after case conversion",
+        "ruleID": "b67f273d-c6c0-4e8c-a1ff-69b6a7e9cc67",
+        "disableRuleIDs": [
+          "93ea35cd-2ec3-4130-93c7-16befad76d2f"
+        ],
+        "codingPolicy": "java_equalsignorecase",
+        "ruleShortDescription": "Could behave differently based on the systems locale",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "comment": "",
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: (SSL.*|TLSv1)\n    name: getInstance\n    declaration:\n      type: javax.net.ssl.SSLContext\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set protocol version to TLSv1.2 \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"TLSv1.2\\\")\"\n",
+        "ruleName": "TLS: Weak Encryption: Insecure Version ",
+        "category": "itlp:weakalgorithm",
+        "ruleID": "2ce50a3c-c7c5-4734-8e25-8cf73610e511",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_use_transport_layer_security_protocol_versions_12_or_11",
+        "ruleShortDescription": "Could lead to Data Exposure",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value:\n          matches: TLSv1.1\n    name: getInstance\n    declaration:\n      type: javax.net.ssl.SSLContext\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set protocol version to TLSv1.2 \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(\\\"TLSv1.2\\\")\"\n",
+        "ruleName": "TLS: Weak Encryption: Outdated Version",
+        "category": "itlp:weakalgorithm",
+        "ruleID": "2af17116-12df-4804-9ddd-8affcfc3c071",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_use_transport_layer_security_protocol_versions_12_or_11",
+        "ruleShortDescription": "Could lead to Data Exposure",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    not:\n      followedBy:\n        methodcall:\n          name: setSchema\n    name: newInstance\n    declaration:\n      type: javax.xml.parsers.SAXParserFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Add a schema\"\n  actions:\n  - addMethodCall:\n      name: \"setSchema\"\n      arguments:\n      - \"schema\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "Injection: Avoid XML Injection: Use setSchema ",
+        "category": "injection:xml",
+        "ruleID": "39715573-4f7e-4bfd-aae6-7d1e2c74140e",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_enable_xml_secure_processing ",
+        "ruleShortDescription": "Could lead to XML Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    not:\n      followedBy:\n        methodcall:\n          args:\n            1:\n              referenceTo:\n                name: javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING\n          name: setFeature\n    name: newInstance\n    declaration:\n      type:\n        reference:\n          matches: javax\\.xml\\.(parsers|transform|validation|xpath)\\.(DocumentBuilderFactory|TransformerFactory|SAXParserFactory|SchemaFactory|XPathFactory)\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set FEATURE_SECURE_PROCESSING true\"\n  actions:\n  - addMethodCall:\n      name: \"setFeature\"\n      arguments:\n      - \"javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING\"\n      - \"true\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "Injection: Avoid XML Injection: Use setFeature ",
+        "category": "injection:xml",
+        "ruleID": "6e7d6e80-0688-41ae-b8c0-faf8906fe1a9",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_enable_xml_secure_processing",
+        "ruleShortDescription": "Could lead to XML Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        referenceTo:\n          name: javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING\n      2:\n        type: boolean\n        value: \u0027false\u0027\n    name: setFeature\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set FEATURE_SECURE_PROCESSING true\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}({{{ arguments.0 }}}, true)\"\n",
+        "ruleName": "Injection: Avoid XML Injection: setFeature with bad value",
+        "category": "injection:xml",
+        "ruleID": "33bf0f09-64b1-414b-ac9c-c9f8a13459cd",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_enable_xml_secure_processing",
+        "ruleShortDescription": "Could lead to XML Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value: http://xml.org/sax/features/external-parameter-entities\n      2:\n        type: boolean\n        value: \u0027true\u0027\n    name: setFeature\n    declaration:\n      type: javax.xml.parsers.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set external-parameter-entities to false\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}({{{ arguments.0 }}}, false)\"\n",
+        "ruleName": "Input Validation: Avoid XXE: Do not set DocumentBuilderFactory external-parameter-entities to true ",
+        "category": "injection:xxe",
+        "ruleID": "66d763c4-3c9d-4fac-a43c-0d39c07b3fbc",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value: http://apache.org/xml/features/nonvalidating/load-external-dtd\n      2:\n        type: boolean\n        value: \u0027true\u0027\n    name: setFeature\n    declaration:\n      type: javax.xml.parsers.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set load-external-dtd false \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}({{{ arguments.0 }}}, false)\"\n",
+        "ruleName": "Input Validation: Avoid XXE: Do not set DocumentBuilderFactory load-external-dtd to true ",
+        "category": "injection:xxe",
+        "ruleID": "fb2c0844-982a-4294-ac75-db4abad43329",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: boolean\n        value: \u0027true\u0027\n    name: setXIncludeAware\n    declaration:\n      type: javax.xml.parsers.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Could lead to XXE \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(false)\"\n",
+        "ruleName": "Input Validation: Avoid XXE: Do not set DocumentBuilderFactory setXIncludeAware to true ",
+        "category": "injection:xxe",
+        "ruleID": "04a27661-a427-4629-8094-f172be9f90e0",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: boolean\n        value: \u0027true\u0027\n    name: setExpandEntityReferences\n    declaration:\n      type: javax.xml.parsers.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"setExpandEntityReferences to false\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(false)\"\n",
+        "ruleName": "Input Validation: Avoid XXE: Do not set DocumentBuilderFactory setExpandEntityReferences to true ",
+        "category": "injection:xxe",
+        "ruleID": "6108048d-5e7b-43f1-85b2-62a4e82964b2",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        referenceTo:\n          anyOf:\n          - name: javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES\n          - name: javax.xml.stream.XMLInputFactory.SUPPORT_DTD\n      2:\n        type: boolean\n        value: \u0027true\u0027\n    name: setProperty\n    declaration:\n      type: javax.xml.stream.XMLInputFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set property to false\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}({{{ arguments.0 }}}, false)\"\n",
+        "ruleName": "InputValidation: Avoid XXE: Do not set XMLInputFactory Property to true ",
+        "category": "injection:xxe",
+        "ruleID": "e9cd354c-edf0-457e-be5a-344ef9eef16f",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities ",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    not:\n      followedBy:\n        methodcall:\n          name: setExpandEntityReferences\n    name: newInstance\n    declaration:\n      type:\n        reference:\n          matches: javax\\.xml\\.(parsers|transform|validation|xpath)\\.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set ExpandEntityReferences feature to false\"\n  actions:\n  - addMethodCall:\n      name: \"setExpandEntityReferences\"\n      arguments:\n      - \"false\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "XML External Entities: DocumentBuilderFactory setExpandEntityReferences: to false ",
+        "category": "injection:xxe",
+        "ruleID": "16074db1-d254-4ac5-b012-c585e425712b",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    not:\n      followedBy:\n        methodcall:\n          args:\n            1:\n              value: http://apache.org/xml/features/disallow-doctype-decl\n          name: setFeature\n    name: newInstance\n    declaration:\n      type:\n        reference:\n          matches: javax\\.xml\\.(parsers|transform|validation|xpath)\\.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set dissallow-doctype-decl feature to true \"\n  actions:\n  - addMethodCall:\n      name: \"setFeature\"\n      arguments:\n      - \"\\\"http://apache.org/xml/features/disallow-doctype-decl\\\"\"\n      - \"true\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "XML External Entities: DocumentBuilderFactory setFeature: dissallow-doctype-decl ",
+        "category": "injection:xxe",
+        "ruleID": "76030f66-ede5-4af6-a491-6a2c98f74702",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    not:\n      followedBy:\n        methodcall:\n          args:\n            1:\n              value: http://xml.org/sax/features/external-parameter-entities\n          name: setFeature\n    name: newInstance\n    declaration:\n      type:\n        reference:\n          matches: javax\\.xml\\.(parsers|transform|validation|xpath)\\.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set external-parameter-entities feature to false\"\n  actions:\n  - addMethodCall:\n      name: \"setFeature\"\n      arguments:\n      - \"\\\"http://xml.org/sax/features/external-parameter-entities\\\"\"\n      - \"false\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "XML External Entities: DocumentBuilderFactory setFeature: external-parameter-entities should be set first ",
+        "category": "injection:xxe",
+        "ruleID": "2465f091-c842-460c-8542-d97df4dc18b5",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    not:\n      followedBy:\n        methodcall:\n          args:\n            1:\n              value: http://apache.org/xml/features/nonvalidating/load-external-dtd\n          name: setFeature\n    name: newInstance\n    declaration:\n      type:\n        reference:\n          matches: javax\\.xml\\.(parsers|transform|validation|xpath)\\.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set load-external-dtd feature to false \"\n  actions:\n  - addMethodCall:\n      name: \"setFeature\"\n      arguments:\n      - \"\\\"http://apache.org/xml/features/nonvalidating/load-external-dtd\\\"\"\n      - \"false\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "XML External Entities: DocumentBuilderFactory setFeature: load-external-dtd ",
+        "category": "injection:xxe",
+        "ruleID": "d99f6136-78cc-457a-9e46-a84061e0eb48",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    not:\n      followedBy:\n        methodcall:\n          name: setXIncludeAware\n    name: newInstance\n    declaration:\n      type:\n        reference:\n          matches: javax\\.xml\\.(parsers|transform|validation|xpath)\\.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set XIncludeAware feature to false \"\n  actions:\n  - addMethodCall:\n      name: \"setXIncludeAware\"\n      arguments:\n      - \"false\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "XML External Entities: DocumentBuilderFactory setXIncludeAware ",
+        "category": "injection:xxe",
+        "ruleID": "c651c938-5b27-47ce-b73b-10bfb28173cf",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: java.lang.String\n        value: http://apache.org/xml/features/disallow-doctype-decl\n      2:\n        type: boolean\n        value: \u0027false\u0027\n    name: setFeature\n    declaration:\n      type: javax.xml.parsers.DocumentBuilderFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set feature true \"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}({{{ arguments.0 }}}, true)\"\n",
+        "ruleName": "XML External Entities: DocumentBuilderFactory setFeature: dissallow-doctype-decl wrong boolean ",
+        "category": "injection:xxe",
+        "ruleID": "3000673a-f652-490b-a80f-19158c515c00",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities ",
+        "ruleShortDescription": "Could lead to XXE ",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    not:\n      followedBy:\n        methodcall:\n          args:\n            1:\n              referenceTo:\n                name: javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES\n          name: setProperty\n    name: newFactory\n    declaration:\n      type: javax.xml.stream.XMLInputFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set Support for External Entities to false\"\n  actions:\n  - addMethodCall:\n      name: \"setProperty\"\n      arguments:\n      - \"javax.xml.stream.XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES\"\n      - \"false\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "XML External Entities: XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES",
+        "category": "injection:xxe",
+        "ruleID": "f98cb3fc-b03c-474a-af3e-1e36c39171ce",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    not:\n      followedBy:\n        methodcall:\n          args:\n            1:\n              referenceTo:\n                name: javax.xml.stream.XMLInputFactory.SUPPORT_DTD\n          name: setProperty\n    name: newFactory\n    declaration:\n      type: javax.xml.stream.XMLInputFactory\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Set Support for DTD to false\"\n  actions:\n  - addMethodCall:\n      name: \"setProperty\"\n      arguments:\n      - \"javax.xml.stream.XMLInputFactory.SUPPORT_DTD\"\n      - \"false\"\n      position: \"first-available-spot\"\n",
+        "ruleName": "XML External Entities: XMLInputFactory.SUPPORT_DTD",
+        "category": "injection:xxe",
+        "ruleID": "942f3247-e465-428f-ad7a-184d1e71cf73",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_avoid_or_take_extra_care_with_xml_external_entities",
+        "ruleShortDescription": "Could lead to XXE",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        containsUntrustedInput: true\n        type: \"java.lang.String\"\n    name: \"prepareStatement\"\n    type: \"java.sql.Connection\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use parameterized queries\"\n  actions:\n  - parameterize:\n      placeholderFormat: \"?\"\n      extractUntrustedInput:\n        methodsOnObject:\n          methods:\n          - type: \"java.lang.String\"\n            methodName: \"setString\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Integer\"\n            methodName: \"setInt\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"int\"\n            methodName: \"setInt\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"double\"\n            methodName: \"setDouble\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Double\"\n            methodName: \"setDouble\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"float\"\n            methodName: \"setFloat\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Float\"\n            methodName: \"setFloat\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"boolean\"\n            methodName: \"setBoolean\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Boolean\"\n            methodName: \"setBoolean\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Short\"\n            methodName: \"setShort\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"short\"\n            methodName: \"setShort\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.sql.Time\"\n            methodName: \"setTime\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.sql.TimeStamp\"\n            methodName: \"setTimeStamp\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.net.URL\"\n            methodName: \"setURL\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          target:\n            returnValue: {}\n",
+        "ruleName": "Injection: Avoid SQL Injection: Use Parameterized Queries (PreparedStatement)",
+        "category": "injection:sql",
+        "ruleID": "b23dd92f-229c-4886-b6fa-e4486c24be0a",
+        "overridingruleID": "",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_use_parameterized_queries",
+        "ruleShortDescription": "Could lead to SQL Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "comment": "",
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        containsUntrustedInput: true\n        type: \"java.lang.String\"\n    name:\n      matches: \"execute.*\"\n    declaration:\n      type: \"java.sql.Statement\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use parameterized queries\"\n  actions:\n  - parameterize:\n      placeholderFormat: \"?\"\n      extractUntrustedInput:\n        methodsOnObject:\n          methods:\n          - type: \"java.lang.String\"\n            methodName: \"setString\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Integer\"\n            methodName: \"setInt\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"int\"\n            methodName: \"setInt\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"double\"\n            methodName: \"setDouble\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Double\"\n            methodName: \"setDouble\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"float\"\n            methodName: \"setFloat\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Float\"\n            methodName: \"setFloat\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"boolean\"\n            methodName: \"setBoolean\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Boolean\"\n            methodName: \"setBoolean\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.lang.Short\"\n            methodName: \"setShort\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"short\"\n            methodName: \"setShort\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.sql.Time\"\n            methodName: \"setTime\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.sql.TimeStamp\"\n            methodName: \"setTimeStamp\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          - type: \"java.net.URL\"\n            methodName: \"setURL\"\n            args:\n              1: \"{{{ index }}}\"\n              2: \"{{{ . }}}\"\n          target:\n            subject:\n              insertBefore: true\n  - changeTypeOfCallObject:\n     rewriteLastAssignment: \"{{{ qualifier }}}.prepareStatement({{{ markedElement.arguments.0}}}{{#arguments}},\\\n       \\ {{{.}}}{{/arguments}})\"\n     type: \"PreparedStatement\"\n  - modifyArguments:\n     remove:\n     - 1",
+        "ruleName": "Injection: Avoid SQL Injection: Use Parameterized Queries (Statement)",
+        "category": "injection:sql",
+        "ruleID": "c8201f35-3de0-4903-adb0-15a92ceb6218",
+        "overridingruleID": "",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_use_parameterized_queries",
+        "ruleShortDescription": "Could lead to SQL Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "comment": "",
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  instanceCreation:\n    argCount: 0\n    type: org.yaml.snakeyaml.Yaml\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Add SafeConstructor\"\n  actions:\n  - modifyArguments:\n      insert:\n        \"1\": \"new org.yaml.snakeyaml.constructor.SafeConstructor()\"\n",
+        "ruleName": "Injection: Avoid Code Injection: Use SafeConstructor: no arguments",
+        "category": "injection:code",
+        "ruleID": "dfdaa55a-c528-44de-8977-7ab8b2083a53",
+        "overridingruleID": "java_snakeyaml",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_snakeyaml",
+        "ruleShortDescription": "Could lead to Remote Code Execution",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  instanceCreation:\n    args:\n      1:\n        type: org.yaml.snakeyaml.constructor.Constructor\n    type: org.yaml.snakeyaml.Yaml\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Change Constructor to SafeConstructor\"\n  actions:\n  - modifyArguments:\n      rewrite:\n        1: \"new org.yaml.snakeyaml.constructor.SafeConstructor()\"\n",
+        "ruleName": "Injection: Avoid Code Injection: Use SafeConstructor: 1st argument of type Constructor",
+        "category": "injection:code",
+        "ruleID": "03e20405-12e7-46d1-a326-4be334277a50",
+        "overridingruleID": "java_snakeyaml",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_snakeyaml",
+        "ruleShortDescription": "Could lead to Remote Code Execution",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  instanceCreation:\n    argCount:\n      biggerThan: 0\n    type: org.yaml.snakeyaml.Yaml\n    without:\n      args:\n        1:\n          type:\n            reference: org.yaml.snakeyaml.constructor.BaseConstructor\n            checkInheritance: true\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Add SafeConstructor\"\n  actions:\n  - modifyArguments:\n      insert:\n        1: \"new org.yaml.snakeyaml.constructor.SafeConstructor()\"\n",
+        "ruleName": "Injection: Avoid Code Injection: Use SafeConstructor: arguments, but no Constructor argument",
+        "category": "injection:code",
+        "ruleID": "08bc5edb-87c4-4cdb-8d7a-018f04e2ca71",
+        "overridingruleID": "java_snakeyaml",
+        "disableRuleIDs": [],
+        "codingPolicy": "java_snakeyaml",
+        "ruleShortDescription": "Could lead to Remote Code Execution",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    }
+  ],
+  "generators": []
+}
