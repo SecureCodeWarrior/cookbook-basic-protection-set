@@ -1,0 +1,193 @@
+{
+  "header": {
+    "name": "Custom cookbook",
+    "description": "cookbook for internal use within our company",
+    "company": "SCW",
+    "appsecmail": "appsecteam@senseifinancial.com",
+    "rulepack_id": "e3025620-cc7b-4197-856f-b8b3ac892ba2",
+    "rulePackVersion": "0.1.0",
+    "enabled": true
+  },
+  "rules": [
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  annotation:\n    in:\n      class:\n        with:\n          annotation:\n            type: \"org.springframework.stereotype.Controller\"\n    type: \"org.springframework.web.bind.annotation.RequestMapping\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use @GetMapping\"\n  actions:\n  - rewrite:\n      to: \"@org.springframework.web.bind.annotation.GetMapping({{{ elementValuePairs\\\n        \\ }}})\"\n- name: \"Use @PostMapping\"\n  actions:\n  - rewrite:\n      to: \"@org.springframework.web.bind.annotation.PostMapping({{{ elementValuePairs\\\n        \\ }}})\"\n- name: \"Use @PutMapping\"\n  actions:\n  - rewrite:\n      to: \"@org.springframework.web.bind.annotation.PutMapping({{{ elementValuePairs\\\n        \\ }}})\"\n- name: \"Use @DeleteMapping\"\n  actions:\n  - rewrite:\n      to: \"@org.springframework.web.bind.annotation.DeleteMapping({{{ elementValuePairs\\\n        \\ }}})\"\n- name: \"Use @PatchMapping\"\n  actions:\n  - rewrite:\n      to: \"@org.springframework.web.bind.annotation.PatchMapping({{{ elementValuePairs\\\n        \\ }}})\"\n- name: \"Use @GetMapping\"\n  actions:\n  - rewrite:\n      to: \"@org.springframework.web.bind.annotation.GetMapping({{{ elementValuePairs\\\n        \\ }}})\"",
+        "ruleName": "Session management: Avoid CSRF: Use narrow mapping for state-changing methods",
+        "category": "session:csrf",
+        "ruleID": "9ed07fda-fb90-4e78-a015-70e1f684649c",
+        "disableRuleIDs": [],
+        "ruleDescriptionFile": "SessionmanagementAvoidCSRFUsenarrowmappingforstate-changingmethods.html",
+        "ruleShortDescription": "Could lead to CSRF",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        containsUntrustedInput: true\n        type: \"java.lang.String\"\n      2:\n        not:\n          type: \"String[]\"\n    name: \"queryForObject\"\n    declaration:\n      type: \"org.springframework.jdbc.core.JdbcTemplate\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use parameterized queries\"\n  actions:\n  - parameterize:\n      placeholderFormat: \"?\"\n      extractUntrustedInput:\n        array:\n          type: \"java.lang.String[]\"\n          atArgumentPosition: 3\n",
+        "ruleName": "Input Validation: Avoid JDBC Injection: Bind variables in prepared statements: queryForObject",
+        "category": "injection:sql",
+        "ruleID": "7a04e509-faf9-4018-a78a-622dc90744c9",
+        "disableRuleIDs": [],
+        "ruleDescriptionFile": "InputValidationAvoidJDBCInjectionBindvariablesinpreparedstatements.html",
+        "ruleShortDescription": "Could lead to JDBC Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        containsUntrustedInput: true\n        type: \"java.lang.String\"\n      2:\n        type:\n          reference: \"java.lang.Object[]\"\n          checkInheritance: true\n      3:\n        type: \"java.lang.Integer\"\n    name: \"queryForObject\"\n    declaration:\n      type: \"org.springframework.jdbc.core.JdbcTemplate\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Parameterize all variables in query\"\n  actions:\n  - parameterize:\n      placeholderFormat: \"?\"\n      extractUntrustedInput:\n        array:\n          type: \"java.lang.Object[]\"\n          atArgumentPosition: 2\n",
+        "ruleName": "Input Validation: Avoid JDBC Injection: Bind variables in prepared statements: queryForObject with arrays",
+        "category": "injection:sql",
+        "ruleID": "1b329b3f-7f8a-4984-8936-5ef5accdf165",
+        "disableRuleIDs": [],
+        "ruleDescriptionFile": "InputValidationAvoidJDBCInjectionBindvariablesinpreparedstatements.html",
+        "ruleShortDescription": "Could lead to JDBC Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        containsUntrustedInput: true\n        type: \"java.lang.String\"\n    argCount: 1\n    name:\n      matches: \"queryForList|queryForMap|queryForRowSet\"\n    declaration:\n      type: \"org.springframework.jdbc.core.JdbcTemplate\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use parameterized queries\"\n  actions:\n  - parameterize:\n      placeholderFormat: \"?\"\n      extractUntrustedInput:\n        array:\n          type: \"java.lang.String[]\"\n          atArgumentPosition: 2\n",
+        "ruleName": "Input Validation: Avoid JDBC Injection: Bind variables in prepared statements: queryForList,queryForMap,queryForRowSet",
+        "category": "injection:sql",
+        "ruleID": "56e923ce-65b4-41b5-b529-71b7d0dd4857",
+        "disableRuleIDs": [],
+        "ruleDescriptionFile": "InputValidationAvoidJDBCInjectionBindvariablesinpreparedstatements.html",
+        "ruleShortDescription": "Could lead to JDBC Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        containsUntrustedInput: true\n        type: \"java.lang.String\"\n      2:\n        type: \"java.lang.Class\"\n    name: \"queryForList\"\n    declaration:\n      type: \"org.springframework.jdbc.core.JdbcTemplate\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use parameterized queries\"\n  actions:\n  - parameterize:\n      placeholderFormat: \"?\"\n      extractUntrustedInput:\n        array:\n          type: \"java.lang.String[]\"\n          atArgumentPosition: 3\n",
+        "ruleName": "Input Validation: Avoid JDBC Injection: Bind variables in prepared statements: queryForList with elementtype",
+        "category": "injection:sql",
+        "ruleID": "3899479b-9419-4437-9d8a-0fb706d9e906",
+        "disableRuleIDs": [],
+        "ruleDescriptionFile": "InputValidationAvoidJDBCInjectionBindvariablesinpreparedstatements.html",
+        "ruleShortDescription": "Could lead to JDBC Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        containsUntrustedInput: true\n        type: \"java.lang.String\"\n    name: \"parseExpression\"\n    declaration:\n      type: \"org.springframework.expression.ExpressionParser\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes: []\n",
+        "ruleName": "Input Validation: Avoid Spring Expression Language Injection: Do not evaluate expressions controlled by user input",
+        "category": "injection:generic",
+        "ruleID": "4ae20b60-60e8-46ca-8ece-bbf1c2a799ff",
+        "disableRuleIDs": [],
+        "ruleDescriptionFile": "InputValidationAvoidSpringExpressionLanguageInjectionDonotevaluateexpressionscontrolledbyuserinput.html",
+        "ruleShortDescription": "Could lead to Spring Expression Language Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      2:\n        containsUntrustedInput: true\n        type: \"java.lang.String\"\n    name: \"createValueExpression\"\n    declaration:\n      type: \"javax.el.ExpressionFactory\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes: []\n",
+        "ruleName": "Input Validation: Avoid Spring Expression Language Injection: Do not evaluate expressions controlled by user input (2)",
+        "category": "injection:generic",
+        "ruleID": "5e7a854a-186e-4f68-aa62-7a73cfd4b7bc",
+        "disableRuleIDs": [],
+        "ruleDescriptionFile": "InputValidationAvoidSpringExpressionLanguageInjectionDonotevaluateexpressionscontrolledbyuserinput.html",
+        "ruleShortDescription": "Could lead to Spring Expression Language Injection",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  field:\n    without:\n      anyOf:\n      - modifier: \"static\"\n      - annotation:\n          anyOf:\n          - type: \"org.springframework.beans.factory.annotation.Autowired\"\n          - type: \"org.springframework.beans.factory.annotation.Value\"\n          - type: \"javax.inject.Inject\"\n          - type: \"javax.annotation.Resource\"\n    in:\n      class:\n        with:\n          annotation:\n            type:\n              reference:\n                matches: \"org.springframework.stereotype.(Controller|Service|Repository)\"\n\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Add @Autowired annotation\"\n  actions:\n  - addAnnotation:\n      annotation: \"@org.springframework.beans.factory.annotation.Autowired\"\n- name: \"Add @Value annotation\"\n  actions:\n  - addAnnotation:\n      annotation: \"@org.springframework.beans.factory.annotation.Value(\\\"string value\\\")\"\n- name: \"Add @Inject annotation\"\n  actions:\n  - addAnnotation:\n      annotation: \"@javax.inject.Inject\"\n- name: \"Add @Resource annotation\"\n  actions:\n  - addAnnotation:\n      annotation: \"@javax.annotation.Resource\"\n",
+        "ruleName": "Data Protection: Secure Data Presentation: Avoid Sensitive Data Exposure: Use injection for non-static members in singletons",
+        "category": "infoexposure:sensitiveinfo",
+        "ruleID": "31141c48-1326-4440-ac1f-71167977418a",
+        "disableRuleIDs": [],
+        "ruleDescriptionFile": "DataProtectionSecureDataPresentationAvoidSensitiveDataExposureUseinjectionfornon-staticmembersinsingletons.html",
+        "ruleShortDescription": "Could lead to Sensitive Data Exposure",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  instanceCreation:\n    type:\n      reference:\n        matches: \"(.*ShaPasswordEncoder|Md.PasswordEncoder|MessageDigestPasswordEncoder|StandardPasswordEncoder)\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use BCryptPasswordEncoder\"\n  actions:\n  - rewrite:\n      to: \"new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder()\"\n",
+        "ruleName": "Data Protection: Secure Data Storage: Avoid Data Exposure: Hash passwords using strong hashing algorithms",
+        "category": "broken_cryptography:use_of_insecuredeprecated_alogirthms",
+        "ruleID": "cbcd192e-d99f-4ee6-af3f-fe91bf9fd0c0",
+        "disableRuleIDs": [],
+        "ruleDescriptionFile": "DataProtectionSecureDataStorageAvoidDataExposureHashpasswordsusingstronghashingalgorithms.html",
+        "ruleShortDescription": "Could lead to data exposure",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    name: \"getInstance\"\n    declaration:\n      type: \"org.springframework.security.crypto.password.NoOpPasswordEncoder\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Use BCryptPasswordEncoder\"\n  actions:\n  - rewrite:\n      to: \"new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder()\"\n",
+        "ruleName": "Data Protection: Secure Data Storage: Avoid Data Exposure: Do not use NoOpPasswordEncoder",
+        "category": "ics:passwdstorage",
+        "ruleID": "e6861f33-6b6b-4f6a-9043-32038e17dce3",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "Could lead to data exposure",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    }
+  ],
+  "generators": []
+}
