@@ -187,6 +187,40 @@
         "ruleScope": [],
         "onlyMarkOnNewCode": false
       }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  instanceCreation:\n    args:\n      1:\n        containsUntrustedInput: true\n        type: \"java.lang.String\"\n    type: \"org.springframework.web.servlet.ModelAndView\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes: []\n",
+        "ruleName": "Input Validation: Avoid File Disclosure: Do not pass unvalidated user input to ModelAndView",
+        "category": "infoexposure:generic",
+        "ruleID": "6443b255-0bdf-4a1d-8279-76cc2952590a",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "Could lead to File Disclosure",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type:\n          reference:\n            matches: \"javax.xml.transform.dom.DOMSource|javax.xml.transform.stax.StAXSource\"\n    name: \"unmarshal\"\n    declaration:\n      type:\n        reference:\n          matches: \"org.springframework.oxm.Unmarshaller|org.springframework.oxm.jaxb.Jaxb2Marshaller\"\n",
+        "mver": 4,
+        "yamlQuickFixCode": "availableFixes: []\n",
+        "ruleName": "Input Validation: Avoid XXE: Use automatically protected source types",
+        "category": "injection:xxe",
+        "ruleID": "ce3d0fa6-0f3f-4e39-b316-b1264fe5d7f2",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "Could lead to XXE",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": [],
+        "onlyMarkOnNewCode": false
+      }
     }
   ],
   "generators": []
