@@ -899,6 +899,38 @@
         "ruleScope": [],
         "onlyMarkOnNewCode": false
       }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: \"boolean\"\n        value: \"false\"\n    name: \"setHttpOnly\"\n    type: \"javax.servlet.http.Cookie\"\n",
+        "mver": 6,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Fix the code by setting as httpOnly\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(true)\"\n",
+        "ruleName": "Cookies: Cookie not set as HttpOnly",
+        "category": "misconfig:securityfeatures",
+        "ruleID": "5bd6ed7e-ecc6-4d50-8252-2dd58f2760af",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "The HttpOnly flag has been set to false on this cookie.",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": true,
+        "ruleScope": []
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    args:\n      1:\n        type: \"boolean\"\n        value: \"false\"\n    name: \"setSecure\"\n    type:\n      reference: \"javax.servlet.http.Cookie\"\n",
+        "mver": 6,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Fix code by setting the cookie as secure\"\n  actions:\n  - rewrite:\n      to: \"{{{ expressionElement }}}(true)\"\n",
+        "ruleName": "Cookies: Cookie not set as Secure",
+        "category": "misconfig:securityfeatures",
+        "ruleID": "e1bd5866-a863-4d02-b045-5fc393cb27eb",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "The Secure flag has been disabled on this cookie.",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": true,
+        "ruleScope": []
+      }
     }
   ],
   "generators": []
