@@ -1150,6 +1150,38 @@
         "ruleEnabled": true,
         "ruleScope": []
       }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  annotationParameter:\n    name: \"debug\"\n    value:\n      value: \"true\"\n",
+        "mver": 6,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Fix the code by setting debug to false\"\n  actions:\n  - rewrite:\n      to: \"debug \u003d false\"\n",
+        "ruleName": "Security Misconfiguration: EnableWebSecurity with Debug enabled",
+        "category": "misconfig:debug",
+        "ruleID": "80b554c1-35b1-4e75-a0bd-2324a6e82aa8",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "The debug parameter on EnableWebSecurity should not be hardcoded to true",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": true,
+        "ruleScope": []
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  methodcall:\n    name: \"disable\"\n    on:\n      methodcall:\n        name: \"csrf\"\n",
+        "mver": 6,
+        "yamlQuickFixCode": "availableFixes: []\n",
+        "ruleName": "CSRF: Disabled in WebSecurityConfigurator",
+        "category": "csrf:csrf",
+        "ruleID": "c3bdc2f1-74b5-4990-a60f-04cf42e95555",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "CSRF protection is disabled",
+        "ruleErrorLevel": 0,
+        "ruleEnabled": true,
+        "ruleScope": []
+      }
     }
   ],
   "generators": []
