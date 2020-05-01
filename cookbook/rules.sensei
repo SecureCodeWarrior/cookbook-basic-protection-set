@@ -899,6 +899,94 @@
         "ruleScope": [],
         "onlyMarkOnNewCode": false
       }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  method:\n    annotation:\n      type: \"Override\"\n    name: \"verify\"\n    returnType: \"boolean\"\n    child:\n      return:\n        value:\n          literal:\n            value: \"true\"\n",
+        "mver": 6,
+        "yamlQuickFixCode": "availableFixes:\n- name: \"Fix the code by ...\"\n  actions:\n  - rewrite:\n      to: \"\"\n",
+        "ruleName": "TLS: Disabled Certificate validation",
+        "category": "insufficient_transport_layer_protection:trusting_self_signed_or_untrusted_certificates",
+        "ruleID": "219e91f6-774b-455e-88ef-9a76dd0faca3",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "The verify method has been overriden, and always returns true",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": true,
+        "ruleScope": []
+      }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  method:\n    annotation:\n      type: \"Override\"\n    name: \"getAcceptedIssuers\"\n    returnType: \"X509Certificate[]\"\n    child:\n      return:\n        value:\n          literal:\n            value: \"null\"\n",
+        "mver": 6,
+        "yamlQuickFixCode": "availableFixes: []\n",
+        "ruleName": "X509: Disabled validation in TrustManager",
+        "category": "insufficient_transport_layer_protection:trusting_self_signed_or_untrusted_certificates",
+        "ruleID": "5ca35f6a-e096-4de0-b1cd-2976b1695049",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "A TrustManager has overriden the getAcceptedIssuers method, and only returns null. ",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": true,
+        "ruleScope": []
+      }
+    },
+    {
+      "type": "f44c1b5b95c8157536e2ccdcaab231fdb753d59d",
+      "model": {
+        "expandNamespaces": false,
+        "errorMarkLocation": 0,
+        "errorMarkNode": 1,
+        "root": {
+          "id": 1,
+          "children": [],
+          "value": [],
+          "attributes": [
+            {
+              "id": 6,
+              "attribute": {
+                "optionalAttribute": false,
+                "disallowed": false,
+                "name": "name",
+                "attributeNameType": 0,
+                "attributeType": 0,
+                "attributeValue": "hibernate.connection.url",
+                "attributeValueType": 0
+              }
+            },
+            {
+              "id": 8,
+              "attribute": {
+                "optionalAttribute": false,
+                "disallowed": false,
+                "name": "value",
+                "attributeNameType": 0,
+                "attributeType": 0,
+                "attributeValue": ".*useSSL\u003dfalse.*?",
+                "attributeValueType": 1
+              }
+            }
+          ],
+          "tag": {
+            "disallowed": false,
+            "allowExtraAttributes": true,
+            "tagName": {
+              "name": "property",
+              "nameType": 0
+            }
+          }
+        },
+        "fixes": [],
+        "ruleName": "Missing transport-level security: No SSL for database connection ",
+        "category": "insufficient_transport_layer_protection:communication_over_cleartext_protocol_http",
+        "ruleID": "654e8722-5a94-48fb-b92b-d2b78768eeaa",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "This text will be shown as a tooltip when code violates this recipe",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": []
+      }
     }
   ],
   "generators": []
