@@ -1182,6 +1182,62 @@
         "ruleEnabled": true,
         "ruleScope": []
       }
+    },
+    {
+      "type": "f44c1b5b95c8157536e2ccdcaab231fdb753d59d",
+      "model": {
+        "expandNamespaces": false,
+        "errorMarkLocation": 0,
+        "errorMarkNode": 1,
+        "root": {
+          "id": 1,
+          "children": [],
+          "value": [],
+          "attributes": [
+            {
+              "id": 6,
+              "attribute": {
+                "optionalAttribute": false,
+                "disallowed": false,
+                "name": "name",
+                "attributeNameType": 0,
+                "attributeType": 0,
+                "attributeValue": "hibernate.connection.url",
+                "attributeValueType": 0
+              }
+            },
+            {
+              "id": 8,
+              "attribute": {
+                "optionalAttribute": false,
+                "disallowed": false,
+                "name": "value",
+                "attributeNameType": 0,
+                "attributeType": 0,
+                "attributeValue": ".*useSSL\u003dfalse.*?",
+                "attributeValueType": 1
+              }
+            }
+          ],
+          "tag": {
+            "disallowed": false,
+            "allowExtraAttributes": true,
+            "tagName": {
+              "name": "property",
+              "nameType": 0
+            }
+          }
+        },
+        "fixes": [],
+        "ruleName": "Missing transport-level security: No SSL for database connection ",
+        "category": "insufficient_transport_layer_protection:communication_over_cleartext_protocol_http",
+        "ruleID": "654e8722-5a94-48fb-b92b-d2b78768eeaa",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "This text will be shown as a tooltip when code violates this recipe",
+        "ruleErrorLevel": 2,
+        "ruleEnabled": true,
+        "ruleScope": []
+      }
     }
   ],
   "generators": []
