@@ -963,6 +963,23 @@
         "ruleEnabled": true,
         "ruleScope": []
       }
+    },
+    {
+      "type": "947034909c9b08d0b583170e594b0eb327933231",
+      "model": {
+        "yamlCode": "search:\n  literal:\n    value:\n      contains: \"AKIA_\"\n",
+        "mver": 6,
+        "yamlQuickFixCode": "availableFixes: []\n",
+        "ruleName": "Hardcoded Credentails: AWS Key",
+        "category": "insecure_data_storage:plaintext_storage_of_credentials",
+        "ruleID": "da6f9770-2d98-41b7-b965-993e764a1588",
+        "disableRuleIDs": [],
+        "ruleShortDescription": "This string literal appears to contain AWS credentials. Such credentials should not be hardcoded. ",
+        "ruleErrorLevel": 1,
+        "ruleEnabled": false,
+        "comment": "More formats possible: https://awsteele.com/blog/2020/09/26/aws-access-key-format.html",
+        "ruleScope": []
+      }
     }
   ],
   "generators": []
